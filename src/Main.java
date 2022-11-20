@@ -1,34 +1,91 @@
+import Transport.Car;
+
 public class Main {
     public static void main(String[] args) {
         int year = 2022;
 
-        Human maxim = new Human(35, "Макси", "Минск", "бренд-менеджер");
-
-        Human anna = new Human(29,"Аня", "Москва", "методист образовательных программ");
-
+        Human maxim = new Human(35, "Максим", "Минск", "бренд-менеджер");
+        Human anna = new Human(29, "Аня", "Москва", "методист образовательных программ");
         Human katya = new Human(28, "Катя", "Калининград", "продакт-менеджер");
-
         Human artem = new Human(27, "Артем", "Москва", "директор по развитию бизнеса");
+        Human vladimir = new Human(21, "Владимир", "Казань", null);
 
-        System.out.println("Привет! Меня зовут " + maxim.name + ". Я из города " + maxim.city+ ". Я родился в "+(year - maxim.age)+" году. Я работаю на должности "+maxim.post+". Будем знакомы!");
-        System.out.println("Привет! Меня зовут " + anna.name + ". Я из города " + anna.city+ ". Я родилась в "+(year - anna.age)+" году. Я работаю на должности "+anna.post+". Будем знакомы!");
-        System.out.println("Привет! Меня зовут " + katya.name + ". Я из города " + katya.city+ ". Я родилась в "+(year - katya.age)+" году. Я работаю на должности "+katya.post+". Будем знакомы!");
-        System.out.println("Привет! Меня зовут " + artem.name + ". Я из города " + artem.city+ ". Я родился в "+(year - artem.age)+" году. Я работаю на должности "+artem.post+". Будем знакомы!");
+        printInfo(maxim);
+        printInfo(anna);
+        printInfo(katya);
+        printInfo(artem);
+        printInfo(vladimir);
+
+        System.out.println();
 
         Car lada = new Car("Lada","Grande", 1.7, "Желтый", 2015, "Россия");
-
+        lada.setRubber(false);
         Car audi = new Car("Audi", "А8 50 L TDI quattro", 3.0, "Черный", 2020, "Германия" );
-
         Car bmw = new Car("BMW", "Z8", 3.0, "Черный", 2021, "Германия");
-
         Car kia = new Car("KIA", "Sportage 4 поколение", 2.4, "Красный", 2018, "Южная Корея");
-
+        kia.setRegistrationNumber("х123бв346");
         Car hyundai = new Car("Hyundai", "Avante", 1.6, "Оранжевый", 2016, "Южная Корея");
 
-        System.out.println("Марка: " + lada.brand+ ". Модель " +lada.model+ ". Объем двигателя в литрах: " +lada.engineVolume+ ". Цвет кузова: " +lada.color+ ". Год производства: " +lada.year+ ". Страна сборки: " + lada.country);
-        System.out.println("Марка: " + audi.brand+ ". Модель " +audi.model+ ". Объем двигателя в литрах: " +audi.engineVolume+ ". Цвет кузова: " +audi.color+ ". Год производства: " +audi.year+ ". Страна сборки: " + audi.country);
-        System.out.println("Марка: " + bmw.brand+ ". Модель " +bmw.model+ ". Объем двигателя в литрах: " +bmw.engineVolume+ ". Цвет кузова: " +bmw.color+ ". Год производства: " +bmw.year+ ". Страна сборки: " + bmw.country);
-        System.out.println("Марка: " + kia.brand+ ". Модель " +kia.model+ ". Объем двигателя в литрах: " +kia.engineVolume+ ". Цвет кузова: " +kia.color+ ". Год производства: " +kia.year+ ". Страна сборки: " + kia.country);
-        System.out.println("Марка: " + hyundai.brand+ ". Модель " +hyundai.model+ ". Объем двигателя в литрах: " +hyundai.engineVolume+ ". Цвет кузова: " +hyundai.color+ ". Год производства: " +hyundai.year+ ". Страна сборки: " + hyundai.country);
+        printCars(lada);
+        printCars(audi);
+        printCars(bmw);
+        printCars(kia);
+        printCars(hyundai);
+
+        Flower rosa = new Flower(null, "Голландия", 35.59);
+        Flower hrizantema = new Flower(null, null, 15, 5);
+        Flower pion = new Flower(null, "Англия", 69.9, 1);
+        Flower hypsofila = new Flower(null, "Турция", 19.5, 10);
+
+        System.out.println();
+
+        printFlowers(rosa);
+        printFlowers(hrizantema);
+        printFlowers(pion);
+        printFlowers(hypsofila);
+
+        System.out.println();
+
+        printCostOfFlowers(
+                rosa,rosa,rosa,hrizantema,hrizantema,hrizantema,hrizantema,hrizantema,hypsofila
+        );
+    }
+
+    private static void printInfo(Human human) {
+        System.out.println("Привет! Меня зовут " + human.name + ". Я из города " + human.getCity() + ". Я родился в " + human.getAge() + " году. Я работаю на должности " + human.post + ". Будем знакомы!");
+    }
+
+    private static void printFlowers (Flower flower){
+        System.out.println("Цвет: " + flower.getFlowerColor()+ " Страна: " + flower.getCountry()+ " Цена за одну штуку: "+ flower.getCost()+ " Срок стояния: " + flower.lifeSpan+"");
+    }
+
+    private static double printCostOfFlowers (Flower... flowers){
+        double totalCost = 0;
+        int minLifeSpan = Integer.MAX_VALUE;
+        for (Flower flower: flowers){
+            if (flower.lifeSpan<minLifeSpan){
+                minLifeSpan=flower.lifeSpan;
+            }
+            totalCost+=flower.getCost();
+            printFlowers(flower);
+        }
+        totalCost = totalCost * 1.1;
+        System.out.println("Стоимость букета: " + totalCost);
+        System.out.println("Срок стояния букета: " + minLifeSpan);
+        return totalCost;
+    }
+
+    private static void printCars (Car car){
+        System.out.println("Марка: " + car.getBrand()+
+                ". Модель " +car.getModel()+
+                ". Объем двигателя в литрах: " +car.getEngineVolume()+
+                ". Цвет кузова: " +car.getColor()+
+                ". Год производства: " +car.getYear()+
+                ". Страна сборки: " + car.getCountry() +
+                ". Коробка передач: " + car.getTransmission() +
+                ". Тип кузова: " + car.getBodyType() +
+                ". Регистрационный номер: " + car.getRegistrationNumber() +
+                ". Количество мест: " + car.getSeatsCount() +
+                ". Резина: " + ((car.isRubber())? "летняя" : "зимняя"));
     }
 }
